@@ -23,11 +23,15 @@ public class Intervals {
         int endSemitonId = 0;
         int semitonsCount = 0;
         int semitonDif = 0;
+        int it = 0;
 
+
+        //Проверка на превышения массива.
         if(args.length > 3){
             throw new RuntimeException("Недопустимое количество элементов во входном массиве");
         }
 
+        //Проверкана наличие 3 элемента входного масива.Если отсутствует,то указатель принимает значение "abs".
         if(args.length == 2){
             upOrLow = "asc";
         }else{
@@ -35,7 +39,7 @@ public class Intervals {
         }
 
 
-        // Находит интервал из масива и получает его занчение
+        // Находит интервал из масива и получает его занчение.
         for(int i = 0; i < intevals.length; i++){
 
             if(inInteval == intevals[i]){
@@ -47,7 +51,7 @@ public class Intervals {
         }
 
 
-        //Находит индекс первой ноты
+        //Находит индекс первой ноты в массиве нот.
         for(int i = 0; i < notes.length; i++){
             if(String.valueOf(inNote.charAt(0)).equals(notes[i])){
                 startNoteId = i;
@@ -55,8 +59,8 @@ public class Intervals {
             }
         }
 
-
-        int it = startNoteId;
+        //Находит индекс последней ноты в массиве нот.
+        it = startNoteId;
 
         if(upOrLow.equals("asc")) {
             for (int i = 0; i != degrees; i++) {
@@ -78,19 +82,19 @@ public class Intervals {
 
         endNote = notes[endNoteId];
 
+        //Нахождение индекса первого и последнего элемента в массиве полунот и получение их значение.
         for(int i = 0; i < semitons.length; i++){
             if(inNote.contains(semitons[i])){
                 startSemitonId = i;
             }
         }
-
         for (int i = 0; i < semitons.length; i++){
             if(endNote.contains(semitons[i])){
                 endSemitonId = i;
             }
         }
 
-
+        //Подсчёт количества полунот от первго до последнего масива с учётом указателя.
         it = startSemitonId;
         if(upOrLow.equals("asc")) {
             while (it != endSemitonId) {
@@ -113,6 +117,8 @@ public class Intervals {
                 it--;
             }
         }
+
+        //Изменение счётчика полунот если на вход пришла полунота.
         if(upOrLow.equals("asc")){
             if(inNote.contains("b")){
                 semitonsCount++;
@@ -128,8 +134,10 @@ public class Intervals {
             }
         }
 
+        //Вычисление разности полутонов(Интервальные полутона - счётчик полутонов)
         semitonDif = semiton-semitonsCount;
 
+        //На основе  разницы изменяеться последняя нота.Поднимаем или опускаем на  полутон.
         if(upOrLow.equals("asc")){
             switch (semitonDif){
                 case 1:
@@ -167,100 +175,12 @@ public class Intervals {
             }
         }
 
-        return "Количество интервалов "+semitonsCount+" "+endNote;
+        return endNote;
     }
 
     public static String intervalIdentification(String[] args) {
-        String firstNote = args[0];
-        String secondNote = args[1];
-        String upOrLow = null;
-        String inteval = null;
-
-        int firstNoteId = 0;
-        int secondNoteiId = 0;
-        int firstSemitonId = 0;
-        int secondSemitonId = 0;
-        int endDegrees = 0;
-        int iterator = 0;
-        int semitonsCount = 0;
-
-        //Выброс ошибки при превышении кол-ва параметров
-        if(args.length > 3){
-            throw new RuntimeException("Недопустимое количество элементов во входном массиве");
-        }
-
-        //Проверка на наличие 3 параметра
-        if(args.length == 3){
-            upOrLow = args[2];
-        }else if(args.length == 2){
-            upOrLow = "asc";
-        }
-
-        //Находит позицию в масиве обеих нот
-        for(int i = 0; i < notes.length; i++){
-            if(firstNote.equals(notes[i])){
-                firstNoteId = i;
-
-            }
-        }
-        if(firstNoteId == 0){
-            firstNoteId = 1;
-        }
-        for (int j = 0; j < notes.length; j++){
-            if(secondNote.contains(notes[j])){
-                secondNoteiId = j;
-            }
-        }
-
-
-        System.out.println(firstNoteId+" "+secondNoteiId);
-        if(firstNoteId == 1 & secondNoteiId == 1){
-            endDegrees = firstNoteId + secondNoteiId;
-        }
-
-
-       for(int i = 0; i < semitons.length; i++){
-           if(firstNote.equals(semitons[i])){
-               firstSemitonId = i;
-           }
-       }
-       for(int i = 0; i < semitons.length;i++){
-           if(secondNote == semitons[i]){
-               secondNoteiId = i;
-           }
-       }
-        System.out.println(firstSemitonId + " " + secondSemitonId);
-
-
-        if(upOrLow == "asc"){
-            iterator = firstSemitonId;
-            while (iterator != secondSemitonId){
-                if(iterator > semitons.length-1){
-                    iterator = 0;
-                }
-                if(semitons[iterator].contains("b") || semitons[iterator].contains("#")){
-                    semitonsCount++;
-                }
-                if(iterator == secondNoteiId){break;}
-                iterator++;
-            }
-        }else if(upOrLow == "asc"){
-            iterator = firstSemitonId;
-            while (iterator != secondSemitonId){
-                if(iterator > semitons.length-1){
-                    iterator = 0;
-                }
-                if(semitons[iterator].contains("b") || semitons[iterator].contains("#")){
-                    semitonsCount++;
-                }
-                iterator--;
-            }
-        }
-
-        System.out.println(semitonsCount);
-
-
-        return inteval;
+        String endInterval = null;
+        return endInterval;
     }
 
 
