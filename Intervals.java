@@ -27,7 +27,7 @@ public class Intervals {
 
 
         //Проверка на превышения массива.
-        if(args.length > 3){
+        if(args.length > 3 || args.length <= 1){
             throw new RuntimeException("Недопустимое количество элементов во входном массиве");
         }
 
@@ -180,8 +180,8 @@ public class Intervals {
 
     public static String intervalIdentification(String[] args) {
         String endInterval = null;
-        String firstNote = args[0];
-        String lastNote = args[1];
+        String firstNote = null;
+        String lastNote = null;
         String upOrLow = null;
 
         int firstNoteId = 0;
@@ -195,9 +195,11 @@ public class Intervals {
 
 
         //Проверка на размер принемаемого массива.
-        if(args.length > 3){
+        if(args.length > 3 || args.length <=1){
             throw new RuntimeException("Недопустимое количество элементов во входном массиве");
         }
+        firstNote = args[0];
+        lastNote = args[1];
 
         //Изменение указателя в зависимости от наличия значения
         if(args.length == 2){
@@ -342,7 +344,8 @@ public class Intervals {
                 }
             }
         }
-
+        //Полутона не могут быть отрицательными.
+        if(semitonsCount < 0){semitonsCount*=(-1);}
 
         //Нахождение полутона из масива полутонов
         for(int i = 1; i < intevals.length; i++){
@@ -357,12 +360,14 @@ public class Intervals {
 
 
 
-
-        System.out.print(deagrease+"\t"+semitonsCount+"\t");
-
+        System.out.println(deagrease + "/"+semitonsCount);
         if(endInterval == null){
             throw new RuntimeException("Невозможно определить интервал");
         }
+
+        System.out.print(deagrease+"\t"+semitonsCount+"\t");
+
+
 
         return endInterval;
     }
