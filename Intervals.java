@@ -347,7 +347,7 @@ public class Intervals {
         //Полутона не могут быть отрицательными.
         if(semitonsCount < 0){semitonsCount*=(-1);}
 
-        //Нахождение полутона из масива полутонов
+        //Нахождение интервала из масива полутонов
         for(int i = 1; i < intevals.length; i++){
             int semiton = i;
             if(i > 5){
@@ -357,13 +357,13 @@ public class Intervals {
                 endInterval = intevals[i];
             }
         }
-        
+
         //Выдаём ошибку если интервал не найден
         if(endInterval == null){
             throw new RuntimeException("Невозможно определить интервал");
         }
-        
-        
+
+
 
         return endInterval;
     }
