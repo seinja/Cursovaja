@@ -94,7 +94,7 @@ public class Intervals {
             }
         }
 
-        //Подсчёт количества полунот от первго до последнего масива с учётом указателя.
+        //Подсчёт количества полунот от первго до последнего полутона в массиве полутонов с учётом указателя.
         it = startSemitonId;
         if(upOrLow.equals("asc")) {
             while (it != endSemitonId) {
@@ -180,6 +180,190 @@ public class Intervals {
 
     public static String intervalIdentification(String[] args) {
         String endInterval = null;
+        String firstNote = args[0];
+        String lastNote = args[1];
+        String upOrLow = null;
+
+        int firstNoteId = 0;
+        int lastNoteId = 0;
+        int deagrease = 1;
+        int fistNoteSemitonId = 0;
+        int lastNoteSemitonId = 0;
+        int it = 0;
+        int semitonsCount = 0;
+
+
+
+        //Проверка на размер принемаемого массива.
+        if(args.length > 3){
+            throw new RuntimeException("Недопустимое количество элементов во входном массиве");
+        }
+
+        //Изменение указателя в зависимости от наличия значения
+        if(args.length == 2){
+            upOrLow = "asc";
+        }else{
+            upOrLow = args[2];
+        }
+
+        //Нахождение нот в массиве с нотами для дальнейшего расчёта градусов.
+        for(int i = 0; i < notes.length; i++){
+            if(String.valueOf(firstNote.charAt(0)).equals(notes[i])){
+                firstNoteId = i;
+                break;
+            }
+        }
+        for(int i = 0; i < notes.length; i++){
+            if(String.valueOf(lastNote.charAt(0)).equals(notes[i])){
+                lastNoteId = i;
+                break;
+            }
+        }
+
+
+
+        //Подсчёт градусов между нотами
+        if(upOrLow.equals("asc")){
+            for(int i = firstNoteId; i != lastNoteId;){
+                if(i > notes.length-1){i = 0;}
+                if(i == lastNoteId){break;}
+                deagrease++;
+                i++;
+            }
+        } else if(upOrLow.equals("dsc")) {
+            for(int i = firstNoteId; i != lastNoteId;){
+                if(i < 0){i = notes.length-1;}
+                if(i == lastNoteId){break;}
+                deagrease++;
+                i--;
+            }
+
+            }
+
+
+        //Определение индексов первой и второй ноты в масиве полутонов
+        for(int i = 0; i < semitons.length; i++){
+            if(String.valueOf(firstNote.charAt(0)).equals(semitons[i])){
+                fistNoteSemitonId = i;
+            }
+        }
+        for (int i = 0; i < semitons.length; i++){
+            if(String.valueOf(lastNote.charAt(0)).equals(semitons[i])){
+                lastNoteSemitonId = i;
+            }
+        }
+
+
+        //Подсчёт количества полутонов между элементами
+        it = fistNoteSemitonId;
+        if(upOrLow.equals("asc")) {
+            while (it != lastNoteSemitonId) {
+                if (it > semitons.length - 1) {
+                    it = 0;
+                }
+                if (semitons[it].equals("-")) {
+                    semitonsCount++;
+                }
+                it++;
+            }
+        }else if(upOrLow.equals("dsc")){
+            while (it != lastNoteSemitonId) {
+                if (it == 0) {
+                    it = semitons.length-1;
+                }
+                if (semitons[it].equals("-")) {
+                    semitonsCount++;
+                }
+                it--;
+            }
+        }
+
+
+        //Изменение итогово количества полутонов в зависимости от полученой ноты.
+        if(upOrLow.equals("asc")){
+            if(firstNote.length() == 2){
+            if(firstNote.contains("b")){
+                semitonsCount++;
+            }else if(firstNote.contains("#")){
+                semitonsCount--;
+            }}else if(firstNote.length() > 2){
+                String s = String.valueOf(firstNote.charAt(1))+String.valueOf(firstNote.charAt(2));
+                if(s.equals("bb")){
+                    semitonsCount+=2;
+                }else if(s.equals("##")){
+                    semitonsCount--;
+                }
+            }
+
+        }else if(upOrLow.equals("dsc")){
+            if (firstNote.length() == 2){
+            if(firstNote.contains("b")){
+                semitonsCount--;
+            }else if(firstNote.contains("#")){
+                semitonsCount++;
+            }}
+            else if(firstNote.length() >2){
+                String s = String.valueOf(firstNote.charAt(1))+String.valueOf(firstNote.charAt(2));
+                if(s.equals("bb")){
+                    semitonsCount++;
+                }else if(s.equals("##")){
+                    semitonsCount--;
+                }
+            }
+        }
+        if(upOrLow.equals("asc")){
+            if(lastNote.length() == 2){
+                if(firstNote.contains("b")){
+                    semitonsCount--;
+                }else if(lastNote.contains("#")){
+                    semitonsCount++;
+                }}else if(lastNote.length() > 2){
+                String s = String.valueOf(lastNote.charAt(1))+String.valueOf(lastNote.charAt(2));
+                if(s.equals("bb")){
+                    semitonsCount-=2;
+                }else if(s.equals("##")){
+                    semitonsCount++;
+                }
+            }
+
+        }else if(upOrLow.equals("dsc")){
+            if (lastNote.length() == 2){
+                if(lastNote.contains("b")){
+                    semitonsCount++;
+                }else if(lastNote.contains("#")){
+                    semitonsCount--;
+                }}
+            else if(lastNote.length() >2){
+                String s = String.valueOf(lastNote.charAt(1))+String.valueOf(lastNote.charAt(2));
+                if(s.equals("bb")){
+                    semitonsCount+=2;
+                }else if(s.equals("##")){
+                    semitonsCount--;
+                }
+            }
+        }
+
+
+        //Нахождение полутона из масива полутонов
+        for(int i = 1; i < intevals.length; i++){
+            int semiton = i;
+            if(i > 5){
+                semiton++;
+            }
+            if(deagrease == Integer.parseInt(String.valueOf(intevals[i].charAt(1))) & semitonsCount == semiton){
+                endInterval = intevals[i];
+            }
+        }
+
+
+
+
+        System.out.print(deagrease+"\t"+semitonsCount+"\t");
+
+        if(endInterval == null){
+            throw new RuntimeException("Невозможно определить интервал");
+        }
+
         return endInterval;
     }
 
