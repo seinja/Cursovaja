@@ -357,17 +357,13 @@ public class Intervals {
                 endInterval = intevals[i];
             }
         }
-
-
-
-        System.out.println(deagrease + "/"+semitonsCount);
+        
+        //Выдаём ошибку если интервал не найден
         if(endInterval == null){
             throw new RuntimeException("Невозможно определить интервал");
         }
-
-        System.out.print(deagrease+"\t"+semitonsCount+"\t");
-
-
+        
+        
 
         return endInterval;
     }
