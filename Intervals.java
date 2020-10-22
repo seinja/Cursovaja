@@ -24,20 +24,37 @@ public class Intervals {
         int semitonsCount = 0;
         int semitonDif = 0;
         int it = 0;
+        int intervalAc = 0;
+        int noteAc = 0;
 
 
         //Проверка на превышения массива.
         if(args.length > 3 || args.length <= 1){
-            throw new RuntimeException("Недопустимое количество элементов во входном массиве");
+            throw new RuntimeException("Illegal number of elements in input array");
         }
 
-        //Проверкана наличие 3 элемента входного масива.Если отсутствует,то указатель принимает значение "abs".
+
+
+
+
+        //Проверкана наличие 3 элемента входного массива.Если отсутствует,то указатель принимает значение "abs".
         if(args.length == 2){
             upOrLow = "asc";
         }else{
             upOrLow = args[2];
         }
 
+        //Проверка на наличие интевала в массиве
+        for (int i = 0; i < intevals.length; i++){
+            if(inInteval.equals(intevals[i])){
+                intervalAc = 1;
+                break;
+            }
+        }
+
+        if(intervalAc == 0){
+            throw new RuntimeException("There's no such interval");
+        }
 
         // Находит интервал из масива и получает его занчение.
         for(int i = 0; i < intevals.length; i++){
@@ -48,6 +65,17 @@ public class Intervals {
                 }else{semiton = i;}
 
             }
+        }
+
+        //Проверка на наличи ноты в массиве
+        for (int i = 0; i < notes.length; i++){
+            if(String.valueOf(inNote.charAt(0)).equals(notes[i])){
+                noteAc = 1;
+            }
+        }
+
+        if(noteAc == 0){
+            throw new RuntimeException("There's no such note");
         }
 
 
@@ -191,15 +219,33 @@ public class Intervals {
         int lastNoteSemitonId = 0;
         int it = 0;
         int semitonsCount = 0;
+        int firstNoteAc = 0;
+        int lastNoteAc = 0;
 
 
 
         //Проверка на размер принемаемого массива.
-        if(args.length > 3 || args.length <=1){
-            throw new RuntimeException("Недопустимое количество элементов во входном массиве");
+        if(args.length > 3 || args.length <= 1){
+            throw new RuntimeException("Illegal number of elements in input array");
         }
+
+
         firstNote = args[0];
         lastNote = args[1];
+
+        //Проверка на наличие нот в масиве.
+        for (int i = 0; i < notes.length; i++){
+            if(String.valueOf(firstNote.charAt(0)).equals(notes[i])){
+                firstNoteAc = 1;
+            }
+            if(String.valueOf(lastNote.charAt(0)).equals(notes[i])){
+                lastNoteAc = 1;
+            }
+        }
+
+        if(firstNoteAc == 0 || lastNoteAc == 0){
+            throw  new  RuntimeException("There's no such note");
+        }
 
         //Изменение указателя в зависимости от наличия значения
         if(args.length == 2){
@@ -207,6 +253,7 @@ public class Intervals {
         }else{
             upOrLow = args[2];
         }
+
 
         //Нахождение нот в массиве с нотами для дальнейшего расчёта градусов.
         for(int i = 0; i < notes.length; i++){
