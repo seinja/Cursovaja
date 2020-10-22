@@ -36,12 +36,15 @@ public class Intervals {
 
 
 
-
         //Проверкана наличие 3 элемента входного массива.Если отсутствует,то указатель принимает значение "abs".
         if(args.length == 2){
             upOrLow = "asc";
         }else{
             upOrLow = args[2];
+        }
+
+        if(upOrLow != "asc" || upOrLow != "dsc"){
+            throw new RuntimeException("Intervals can be ascending or descending");
         }
 
         //Проверка на наличие интевала в массиве
@@ -254,6 +257,11 @@ public class Intervals {
             upOrLow = args[2];
         }
 
+        if(upOrLow.equals("asc") || upOrLow.equals("dsc")){}else{
+            throw new RuntimeException("Intervals can be ascending or descending");
+        }
+
+
 
         //Нахождение нот в массиве с нотами для дальнейшего расчёта градусов.
         for(int i = 0; i < notes.length; i++){
@@ -407,7 +415,7 @@ public class Intervals {
 
         //Выдаём ошибку если интервал не найден
         if(endInterval == null){
-            throw new RuntimeException("Невозможно определить интервал");
+            throw new RuntimeException("Cannot identify the interval");
         }
 
 
